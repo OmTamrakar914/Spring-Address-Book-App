@@ -1,36 +1,54 @@
 package com.bridgelabz.addressbook.controller;
+import com.bridgelabz.addressbook.dto.AddressBookDTO;
+import com.bridgelabz.addressbook.dto.ResponseDTO;
+import com.bridgelabz.addressbook.model.AddressBook;
+import com.bridgelabz.addressbook.service.IAddressBookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/addressbook")
+@RequestMapping("/addressbook")
 public class AddressBookController {
 
-    @GetMapping("/contacts")
-    public ResponseEntity<String> getAllContacts() {
-        return ResponseEntity.ok("{\"message\": \"Fetching all contacts...\"}");
+    @Autowired
+    private IAddressBookService addressBookService;
+
+    @GetMapping("/")
+    public ResponseEntity<ResponseDTO> getAllAddresses() {
+        List<AddressBook> addressList = addressBookService.getAllAddresses();
+        ResponseDTO respDTO = new ResponseDTO("Get Call Successful", addressList);
+        return new ResponseEntity<>(respDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/contacts/{id}")
-    public ResponseEntity<String> getContactById(@PathVariable int id) {
-        return ResponseEntity.ok("{\"message\": \"Fetching contact with ID: " + id + "\"}");
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ResponseDTO> getAddressById(@PathVariable("id") int id) {
+        AddressBook address = addressBookService.getAddressById(id);
+        ResponseDTO respDTO = new ResponseDTO("Get Call For ID Successful", address);
+        return new ResponseEntity<>(respDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/contacts")
-    public ResponseEntity<String> addContact(@RequestBody String contact) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("{\"message\": \"Adding new contact: " + contact + "\"}");
+    @PostMapping("/create")
+    public ResponseEntity<ResponseDTO> createAddress(@RequestBody AddressBookDTO addressBookDTO) {
+        AddressBook address = addressBookService.createAddress(addressBookDTO);
+        ResponseDTO respDTO = new ResponseDTO("Created Address Successfully", address);
+        return new ResponseEntity<>(respDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/contacts/{id}")
-    public ResponseEntity<String> updateContact(@PathVariable int id, @RequestBody String contact) {
-        return ResponseEntity.ok("{\"message\": \"Updating contact with ID: " + id + " to: " + contact + "\"}");
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDTO> updateAddress(@RequestBody AddressBookDTO addressBookDTO) {
+        AddressBook address = addressBookService.updateAddress(addressBookDTO);
+        ResponseDTO respDTO = new ResponseDTO("Updated Address Successfully", address);
+        return new ResponseEntity<>(respDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/contacts/{id}")
-    public ResponseEntity<String> deleteContact(@PathVariable int id) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .body("{\"message\": \"Deleting contact with ID: " + id + "\"}");
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseDTO> deleteAddress(@PathVariable("id") int id) {
+        addressBookService.deleteAddress(id);
+        ResponseDTO respDTO = new ResponseDTO("Deleted Successfully", "Deleted ID: " + id);
+        return new ResponseEntity<>(respDTO, HttpStatus.OK);
     }
 }
