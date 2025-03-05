@@ -5,38 +5,51 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.bridgelabz.addressbook.dto.AddressBookDTO;
 import com.bridgelabz.addressbook.model.AddressBook;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AddressBookService implements IAddressBookService {
 
+    private List<AddressBook> addressBookList = new ArrayList<>();
+
     @Override
     public List<AddressBook> getAllAddresses() {
-        List<AddressBook> addressList = new ArrayList<>();
-        addressList.add(new AddressBook(1, "John Doe", "1234567890", "New York"));
-        return addressList;
+        return addressBookList;
     }
 
     @Override
     public AddressBook getAddressById(int id) {
-        AddressBook address = null;
-        address = new AddressBook(id, "John Doe", "1234567890", "New York");
-        return address;
+        return addressBookList.stream()
+                .filter(address -> address.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
     public AddressBook createAddress(AddressBookDTO addressBookDTO) {
-        AddressBook address = new AddressBook(1, addressBookDTO.getName(), addressBookDTO.getPhoneNumber(), addressBookDTO.getCity());
-        return address;
+        AddressBook newAddress = new AddressBook(addressBookList.size() + 1, addressBookDTO.getName(), 
+                                                 addressBookDTO.getPhoneNumber(), addressBookDTO.getCity());
+        addressBookList.add(newAddress);
+        return newAddress;
     }
 
     @Override
     public AddressBook updateAddress(AddressBookDTO addressBookDTO) {
-        AddressBook address = new AddressBook(1, addressBookDTO.getName(), addressBookDTO.getPhoneNumber(), addressBookDTO.getCity());
-        return address;
+        AddressBook existingAddress = getAddressById(addressBookDTO.getId());
+        if (existingAddress != null) {
+            existingAddress.setName(addressBookDTO.getName());
+            existingAddress.setPhoneNumber(addressBookDTO.getPhoneNumber());
+            existingAddress.setCity(addressBookDTO.getCity());
+            return existingAddress;
+        }
+        return null;
     }
 
     @Override
     public void deleteAddress(int id) {
+        addressBookList.removeIf(address -> address.getId() == id);
     }
-
 }
