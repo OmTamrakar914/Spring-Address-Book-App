@@ -17,7 +17,7 @@ public class AddressBookController {
     @Autowired
     private IAddressBookService addressBookService;
 
-    @GetMapping("/")
+    @GetMapping({"", "/", "/get"})
     public ResponseEntity<ResponseDTO> getAllAddresses() {
         List<AddressBook> addressList = addressBookService.getAllAddresses();
         ResponseDTO respDTO = new ResponseDTO("Get Call Successful", addressList);
