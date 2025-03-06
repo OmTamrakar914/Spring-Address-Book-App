@@ -1,0 +1,6 @@
+2025-03-06T19:26:54.629+05:30  INFO 11780 --- [Address-Book-App] [restartedMain] c.b.a.AddressBookAppApplication          : Starting AddressBookAppApplication using Java 23.0.2 with PID 11780 (C:\CapgeminiGit\Spring-Address-Book-App\Address-Book-App\target\classes started by Om in C:\CapgeminiGit\Spring-Address-Book-App\Address-Book-App)
+2025-03-06T19:26:54.631+05:30 DEBUG 11780 --- [Address-Book-App] [restartedMain] c.b.a.AddressBookAppApplication          : Running with Spring Boot v3.4.3, Spring v6.2.3
+2025-03-06T19:26:54.632+05:30  INFO 11780 --- [Address-Book-App] [restartedMain] c.b.a.AddressBookAppApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-03-06T19:26:57.232+05:30  WARN 11780 --- [Address-Book-App] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-06T19:26:57.598+05:30  INFO 11780 --- [Address-Book-App] [restartedMain] c.b.a.AddressBookAppApplication          : Started AddressBookAppApplication in 3.351 seconds (process running for 3.966)
+2025-03-06T19:26:57.603+05:30  INFO 11780 --- [Address-Book-App] [restartedMain] c.b.a.AddressBookAppApplication          : Address Book App started
